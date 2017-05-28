@@ -14,19 +14,25 @@ class App extends Component {
     super(props);
     this.state = {
       view: 'feed',
-      user: null
+      user: false,
+      gid_token: ""
     }
 
     this.handleNavClick = this.handleNavClick.bind(this);
     this.responseGoogle = this.responseGoogle.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
   }
 
   responseGoogle(response) {
-    this.setState({user:response.profileObj});
+    this.setState({user:response.profileObj, gid_token:response.tokenId});
   }
 
   handleNavClick(e) {
     this.setState({view: e.target.value});
+  }
+
+  handleLogout(e) {
+    this.setState({user: false, gid_token: ""});
   }
 
   render() {
@@ -54,7 +60,7 @@ class App extends Component {
 
     return (
       <div>
-        <Header user={this.state.user} onNavClick={this.handleNavClick} />
+        <Header user={this.state.user} onNavClick={this.handleNavClick} onLogout={this.handleLogout}/>
         { main }
         <Footer />
       </div>
