@@ -4,10 +4,10 @@ class Header extends Component {
   render() {
     return (
       <div>
-        <button>Feed</button>
-        <button>View Classes</button>
-        <button>Register</button>
-        <button>My Enrollments</button>
+        <button value="feed" onClick={this.props.onNavClick}>Feed</button>
+        <button value="list" onClick={this.props.onNavClick}>List Classes</button>
+        <button value="register" onClick={this.props.onNavClick}>Register</button>
+        <button value="enrollments" onClick={this.props.onNavClick}>My Enrollments</button>
       </div>
     );
   }
