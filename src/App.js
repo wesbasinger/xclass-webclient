@@ -10,6 +10,8 @@ import Enrollments from './Components/Enrollments';
 
 var $ = require('jquery');
 
+const API_STEM = "https://t35tzok505.execute-api.us-east-1.amazonaws.com/dev/";
+
 class App extends Component {
 
   constructor(props) {
@@ -17,7 +19,8 @@ class App extends Component {
     this.state = {
       view: 'feed',
       user: false,
-      gid_token: ""
+      gid_token: "",
+      classes: []
     }
 
     this.handleNavClick = this.handleNavClick.bind(this);
@@ -31,7 +34,7 @@ class App extends Component {
 
     $.ajax({
       method: "GET",
-      url: "https://2g7e8jd0q8.execute-api.us-east-1.amazonaws.com/dev/classes",
+      url: API_STEM + "classes",
       contentType: 'application/json',
       crossDomain: true,
     }).done(function(response) {
@@ -40,7 +43,31 @@ class App extends Component {
   }
 
   responseGoogle(response) {
-    this.setState({user:response.profileObj, gid_token:response.tokenId});
+
+    const data = JSON.stringify(response.profileObj);
+
+    var self = this;
+
+    $.ajax({
+      method: "GET",
+      url: API_STEM + "users/" + response.profileObj.googleId,
+      contentType: 'application/json',
+      crossDomain: true,
+    }).done(function(response) {
+      if(response.userFound === false) {
+        $.ajax({
+          method: "POST",
+          url: API_STEM + "users",
+          contentType: 'application/json',
+          data: data,
+          crossDomain: true,
+        }).done(function(response) {
+          self.setState({user: response});
+        });
+      } else {
+        self.setState({user: response});
+      }
+    });
   }
 
   handleNavClick(e) {
