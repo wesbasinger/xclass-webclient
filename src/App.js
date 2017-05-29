@@ -67,7 +67,7 @@ class App extends Component {
                />;
       }
     } else if (this.state.view === 'list') {
-      main = <List />
+      main = <List classes={this.state.classes} />
     } else if (this.state.view === 'enrollments') {
       main = <Enrollments />
     } else if (this.state.view === 'register') {
