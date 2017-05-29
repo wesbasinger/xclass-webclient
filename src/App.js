@@ -8,6 +8,8 @@ import List from './Components/List';
 import Register from './Components/Register';
 import Enrollments from './Components/Enrollments';
 
+var $ = require('jquery');
+
 class App extends Component {
 
   constructor(props) {
@@ -21,6 +23,20 @@ class App extends Component {
     this.handleNavClick = this.handleNavClick.bind(this);
     this.responseGoogle = this.responseGoogle.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
+  }
+
+  componentDidMount() {
+
+    var self = this;
+
+    $.ajax({
+      method: "GET",
+      url: "https://2g7e8jd0q8.execute-api.us-east-1.amazonaws.com/dev/classes",
+      contentType: 'application/json',
+      crossDomain: true,
+    }).done(function(response) {
+      self.setState({classes: response})
+    });
   }
 
   responseGoogle(response) {
