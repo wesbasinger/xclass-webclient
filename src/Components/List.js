@@ -11,6 +11,7 @@ class List extends Component {
                 <h2>{_class.title}</h2>
                 <p>{_class.description}</p>
                 <p>{_class.capacity}</p>
+                <p>Current Enrollment: {_class.students.length}</p>
               </div>
             )
           })
