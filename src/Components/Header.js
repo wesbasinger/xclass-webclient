@@ -10,6 +10,9 @@ class Header extends Component {
           <button value="list" onClick={this.props.onNavClick}>List Classes</button>
           <button value="register" onClick={this.props.onNavClick}>Register</button>
           <button value="enrollments" onClick={this.props.onNavClick}>My Enrollments</button>
+          <span>
+            <img src={this.props.user.imageUrl} height="40px" alt=""/>Logged in as: {this.props.user.name} 
+          </span>
           <button onClick={this.props.onLogout}>Logout</button>
         </div>
       );
