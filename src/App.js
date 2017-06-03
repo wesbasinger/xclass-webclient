@@ -26,6 +26,7 @@ class App extends Component {
     this.handleNavClick = this.handleNavClick.bind(this);
     this.responseGoogle = this.responseGoogle.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
+    this.handleRegistrationSubmission = this.handleRegistrationSubmission.bind(this);
   }
 
   componentDidMount() {
@@ -70,6 +71,12 @@ class App extends Component {
     });
   }
 
+  handleRegistrationSubmission(pick) {
+    if(!pick) {
+      alert("you must pick a class");
+    }
+  }
+
   handleNavClick(e) {
     this.setState({view: e.target.value});
   }
@@ -98,7 +105,7 @@ class App extends Component {
     } else if (this.state.view === 'enrollments') {
       main = <Enrollments />
     } else if (this.state.view === 'register') {
-      main = <Register classes={this.state.classes} />
+      main = <Register onRegistrationSubmit={this.handleRegistrationSubmission} classes={this.state.classes} />
     }
 
     return (

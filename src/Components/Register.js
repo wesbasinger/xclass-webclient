@@ -8,10 +8,16 @@ class Register extends Component {
     this.state = {pick: ""}
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(e) {
     this.setState({pick: e.target.value})
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    this.props.onRegistrationSubmit(this.state.pick);
   }
 
   render() {
@@ -22,7 +28,7 @@ class Register extends Component {
 
     return (
       <div>
-        <form>
+        <form onSubmit={this.handleSubmit}>
           <select value={this.state.pickk} onChange={this.handleChange}>
             <option></option>
             {
