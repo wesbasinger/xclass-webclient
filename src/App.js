@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
 import GoogleLogin from 'react-google-login';
 
+import update from 'immutability-helper';
+
 import Header from './Components/Header';
 import Footer from './Components/Footer';
 import Feed from './Components/Feed';
 import List from './Components/List';
 import Register from './Components/Register';
 import Enrollments from './Components/Enrollments';
+import Message from './Components/Message';
 
 var $ = require('jquery');
 
 const API_STEM = "https://t35tzok505.execute-api.us-east-1.amazonaws.com/dev/";
+
+var globalMessage = "";
 
 class App extends Component {
 
@@ -73,6 +78,7 @@ class App extends Component {
 
   handleRegistrationSubmission(pick) {
 
+    var self = this;
     var data = this.state.user;
     var gid = this.state.user.id;
 
@@ -87,7 +93,8 @@ class App extends Component {
         crossDomain: true,
       }).done(function(response) {
         if(response.error) {
-          console.log(response.error);
+          globalMessage = response.error;
+          self.setState({view: "message"});
         } else {
           $.ajax({
             method: "PUT",
@@ -96,7 +103,11 @@ class App extends Component {
             crossDomain: true,
             data: JSON.stringify(response)
           }).done(function(response) {
-            console.log(response);
+            const originalUser = self.state.user
+            const updatedUser = update(originalUser, {$merge: {enrollments: response.enrollments}})
+            self.setState({user: updatedUser});
+            globalMessage = "Successfully registered for current session.";
+            self.setState({view: "message"});
           });
         }
       });
@@ -132,6 +143,8 @@ class App extends Component {
       main = <Enrollments />
     } else if (this.state.view === 'register') {
       main = <Register onRegistrationSubmit={this.handleRegistrationSubmission} classes={this.state.classes} />
+    } else if (this.state.view === 'message') {
+      main = <Message message={globalMessage} />
     }
 
     return (
