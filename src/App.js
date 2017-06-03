@@ -72,8 +72,34 @@ class App extends Component {
   }
 
   handleRegistrationSubmission(pick) {
+
+    var data = this.state.user;
+    var gid = this.state.user.id;
+
     if(!pick) {
       alert("you must pick a class");
+    } else {
+      $.ajax({
+        method: "PUT",
+        url: API_STEM + "classes/" + pick,
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        crossDomain: true,
+      }).done(function(response) {
+        if(response.error) {
+          console.log(response.error);
+        } else {
+          $.ajax({
+            method: "PUT",
+            url: API_STEM + "users/" + gid,
+            contentType: 'application/json',
+            crossDomain: true,
+            data: JSON.stringify(response)
+          }).done(function(response) {
+            console.log(response);
+          });
+        }
+      });
     }
   }
 
