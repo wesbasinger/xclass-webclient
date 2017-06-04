@@ -2,11 +2,19 @@ import React, { Component } from 'react';
 
 class Enrollments extends Component {
   render() {
-    return (
-      <div>
-        This section is the enrollments view.
-      </div>
-    );
+    if(!this.props.enrollments) {
+      return (
+        <div>
+          No current enrollments.
+        </div>
+      )
+    } else {
+      return (
+          <div>
+            {JSON.stringify(this.props.enrollments)}
+          </div>
+      )
+    }
   }
 }
 

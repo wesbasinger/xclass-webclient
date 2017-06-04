@@ -140,7 +140,7 @@ class App extends Component {
     } else if (this.state.view === 'list') {
       main = <List classes={this.state.classes} />
     } else if (this.state.view === 'enrollments') {
-      main = <Enrollments />
+      main = <Enrollments enrollments={this.state.user.enrollments} />
     } else if (this.state.view === 'register') {
       main = <Register onRegistrationSubmit={this.handleRegistrationSubmission} classes={this.state.classes} />
     } else if (this.state.view === 'message') {
