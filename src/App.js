@@ -119,7 +119,7 @@ class App extends Component {
   }
 
   handleLogout(e) {
-    this.setState({user: false, gid_token: ""});
+    this.setState({user: false, gid_token: "", view: "feed"});
   }
 
   render() {
