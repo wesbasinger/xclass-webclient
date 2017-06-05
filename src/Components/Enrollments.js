@@ -9,9 +9,29 @@ class Enrollments extends Component {
         </div>
       )
     } else {
+
+      var enrollmentList = [];
+
+      for (var key in this.props.enrollments) {
+        if (this.props.enrollments.hasOwnProperty(key)) {
+          enrollmentList.push(this.props.enrollments[key]);
+        }
+      }
+
       return (
           <div>
-            {JSON.stringify(this.props.enrollments)}
+            {
+              enrollmentList.map(function(enrollmentListItem) {
+                return (
+                  <div key={enrollmentListItem.id}>
+                    <h2>{enrollmentListItem.title}</h2>
+                    <h3>Session: {enrollmentListItem.session}</h3>
+                    <h3>Location: {enrollmentListItem.location}</h3>
+                    <p>{enrollmentListItem.description}</p>
+                  </div>
+                )
+              })
+            }
           </div>
       )
     }
