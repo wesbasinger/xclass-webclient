@@ -34,7 +34,7 @@ class Register extends Component {
             {
               open_classes.map(function(open_class) {
                 return(
-                  <option key={open_class.id} value={open_class.id}>
+                  <option key={open_class._id} value={open_class._id}>
                     {open_class.title}
                   </option>
                 )

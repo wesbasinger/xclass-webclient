@@ -23,7 +23,7 @@ class Enrollments extends Component {
             {
               enrollmentList.map(function(enrollmentListItem) {
                 return (
-                  <div key={enrollmentListItem.id}>
+                  <div key={enrollmentListItem._id}>
                     <h2>{enrollmentListItem.title}</h2>
                     <h3>Session: {enrollmentListItem.session}</h3>
                     <h3>Location: {enrollmentListItem.location}</h3>

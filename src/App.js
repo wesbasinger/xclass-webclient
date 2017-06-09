@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import GoogleLogin from 'react-google-login';
 
-import update from 'immutability-helper';
+//import update from 'immutability-helper';
 
 import Header from './Components/Header';
 import Footer from './Components/Footer';
@@ -13,7 +13,7 @@ import Message from './Components/Message';
 
 var $ = require('jquery');
 
-const API_STEM = "https://t35tzok505.execute-api.us-east-1.amazonaws.com/dev/";
+const API_STEM = "https://ruv9fe9pzh.execute-api.us-east-1.amazonaws.com/dev/";
 
 var globalMessage = "";
 
@@ -40,7 +40,7 @@ class App extends Component {
 
     $.ajax({
       method: "GET",
-      url: API_STEM + "classes",
+      url: API_STEM + "courses",
       contentType: 'application/json',
       crossDomain: true,
     }).done(function(response) {
@@ -87,7 +87,7 @@ class App extends Component {
     } else {
       $.ajax({
         method: "PUT",
-        url: API_STEM + "classes/" + pick,
+        url: API_STEM + "courses/" + pick,
         contentType: 'application/json',
         data: JSON.stringify(data),
         crossDomain: true,
@@ -101,11 +101,9 @@ class App extends Component {
             url: API_STEM + "users/" + gid,
             contentType: 'application/json',
             crossDomain: true,
-            data: JSON.stringify(response)
+            data: JSON.stringify(response) // this would be an updated course object
           }).done(function(response) {
-            const originalUser = self.state.user
-            const updatedUser = update(originalUser, {$merge: {enrollments: response.enrollments}})
-            self.setState({user: updatedUser});
+            self.setState({user: response});
             globalMessage = "Successfully registered for current session.";
             self.setState({view: "message"});
           });
