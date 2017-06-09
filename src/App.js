@@ -11,6 +11,8 @@ import Register from './Components/Register';
 import Enrollments from './Components/Enrollments';
 import Message from './Components/Message';
 
+import Submission from './Components/Submission';
+
 var $ = require('jquery');
 
 const API_STEM = "https://ruv9fe9pzh.execute-api.us-east-1.amazonaws.com/dev/";
@@ -143,6 +145,8 @@ class App extends Component {
       main = <Register onRegistrationSubmit={this.handleRegistrationSubmission} classes={this.state.classes} />
     } else if (this.state.view === 'message') {
       main = <Message message={globalMessage} />
+    } else if (this.state.view === 'submission') {
+      main = <Submission />
     }
 
     return (
