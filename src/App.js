@@ -105,15 +105,15 @@ class App extends Component {
   handleRegistrationSubmission(pick) {
 
     var self = this;
-    var data = this.state.user;
     var gid = this.state.user.id;
+    var data = this.state.user;
 
     if(!pick) {
       alert("you must pick a class");
     } else {
       $.ajax({
         method: "PUT",
-        url: API_STEM + "courses/" + pick,
+        url: API_STEM + "courses/" + pick + "/add-student",
         contentType: 'application/json',
         data: JSON.stringify(data),
         crossDomain: true,
@@ -124,7 +124,7 @@ class App extends Component {
         } else {
           $.ajax({
             method: "PUT",
-            url: API_STEM + "users/" + gid,
+            url: API_STEM + "users/" + gid + "/add-enrollment",
             contentType: 'application/json',
             crossDomain: true,
             data: JSON.stringify(response) // this would be an updated course object
