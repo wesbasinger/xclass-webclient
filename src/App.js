@@ -34,6 +34,7 @@ class App extends Component {
     this.responseGoogle = this.responseGoogle.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
     this.handleRegistrationSubmission = this.handleRegistrationSubmission.bind(this);
+    this.handleCourseSubmission = this.handleCourseSubmission.bind(this);
   }
 
   componentDidMount() {
@@ -74,6 +75,30 @@ class App extends Component {
         });
       } else {
         self.setState({user: response});
+      }
+    });
+  }
+
+  handleCourseSubmission(data) {
+
+    data['instructors'] = [this.state.user.id];
+    data['students'] = [];
+
+    var self = this;
+
+    $.ajax({
+      method: "POST",
+      url: API_STEM + "courses",
+      contentType: 'application/json',
+      crossDomain: true,
+      data: JSON.stringify(data)
+    }).done(function(response) {
+      if(response.error) {
+        globalMessage = response.error;
+        self.setState({view: "message"})
+      } else {
+        // need to update user too.
+        console.log("Need to implements...")
       }
     });
   }
@@ -146,7 +171,7 @@ class App extends Component {
     } else if (this.state.view === 'message') {
       main = <Message message={globalMessage} />
     } else if (this.state.view === 'submission') {
-      main = <Submission />
+      main = <Submission onFormSubmit={this.handleCourseSubmission} />
     }
 
     return (

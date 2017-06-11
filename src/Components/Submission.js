@@ -49,7 +49,15 @@ class Submission extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.onRegistrationSubmit(this.state.pick);
+    this.setState({
+      title: "",
+      session: "",
+      description: "",
+      location: "",
+      alternateLocation: "",
+      capacity: 20
+    });
+    this.props.onFormSubmit(this.state);
   }
 
   render() {
