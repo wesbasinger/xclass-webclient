@@ -82,7 +82,6 @@ class App extends Component {
   handleCourseSubmission(data) {
 
     data['instructors'] = [this.state.user.id];
-    data['students'] = [];
 
     var self = this;
 
