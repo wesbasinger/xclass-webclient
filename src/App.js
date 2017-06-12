@@ -81,9 +81,15 @@ class App extends Component {
 
   handleCourseSubmission(data) {
 
-    data['instructors'] = [this.state.user.id];
+    var gid = this.state.user.id;
+
+    data['instructors'] = [gid];
 
     var self = this;
+
+    globalMessage = "Submitting class...";
+
+    this.setState({view: "message"});
 
     $.ajax({
       method: "POST",
@@ -96,8 +102,17 @@ class App extends Component {
         globalMessage = response.error;
         self.setState({view: "message"})
       } else {
-        // need to update user too.
-        console.log("Need to implements...")
+        $.ajax({
+          method: "PUT",
+          url: API_STEM + "users/" + gid + "/add-instructing",
+          contentType: 'application/json',
+          crossDomain: true,
+          data: JSON.stringify(response)
+        }).done(function(response) {
+          self.setState({user: response});
+          globalMessage = "Class submitted successfully.";
+          self.setState({view: "message"});
+        });
       }
     });
   }
