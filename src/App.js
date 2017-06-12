@@ -71,7 +71,12 @@ class App extends Component {
           data: data,
           crossDomain: true,
         }).done(function(response) {
-          self.setState({user: response});
+          if(response.error) {
+            globalMessage = response.error;
+            self.setState({view: "message"});
+          } else {
+            self.setState({user: response});
+          }
         });
       } else {
         self.setState({user: response});

@@ -9,6 +9,8 @@ class Instructing extends Component {
     this.state = {
       "instructing" : []
     }
+
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
@@ -32,7 +34,14 @@ class Instructing extends Component {
     })
   }
 
+  handleClick(e) {
+    alert(e.target.value);
+  }
+
   render() {
+
+    var self = this;
+
     if(this.state.instructing.length > 0) {
       return(
         <div>
@@ -41,6 +50,7 @@ class Instructing extends Component {
               return(
                 <div key={instructing._id}>
                   <h1>{instructing.title}</h1>
+                  <button onClick={self.handleClick} value={instructing._id}>View Roster</button>
                 </div>
               )
             })
