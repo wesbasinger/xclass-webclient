@@ -10,7 +10,7 @@ import List from './Components/List';
 import Register from './Components/Register';
 import Enrollments from './Components/Enrollments';
 import Message from './Components/Message';
-
+import Instructing from './Components/Instructing';
 import Submission from './Components/Submission';
 
 var $ = require('jquery');
@@ -186,6 +186,8 @@ class App extends Component {
       main = <Message message={globalMessage} />
     } else if (this.state.view === 'submission') {
       main = <Submission onFormSubmit={this.handleCourseSubmission} />
+    } else if (this.state.view === 'instructing') {
+      main = <Instructing API_STEM={API_STEM} instructingList={this.state.user.instructing} />
     }
 
     return (
