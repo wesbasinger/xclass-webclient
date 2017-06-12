@@ -9,8 +9,6 @@ class Instructing extends Component {
     this.state = {
       "instructing" : []
     }
-
-    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
@@ -34,13 +32,7 @@ class Instructing extends Component {
     })
   }
 
-  handleClick(e) {
-    alert(e.target.value);
-  }
-
   render() {
-
-    var self = this;
 
     if(this.state.instructing.length > 0) {
       return(
@@ -50,7 +42,30 @@ class Instructing extends Component {
               return(
                 <div key={instructing._id}>
                   <h1>{instructing.title}</h1>
-                  <button onClick={self.handleClick} value={instructing._id}>View Roster</button>
+                  <table>
+                    <thead>
+                      <tr>
+                        <td>Image</td>
+                        <td>Name</td>
+                        <td>Email</td>
+                        <td>Grade</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {
+                        instructing.students.map(function(student) {
+                          return(
+                            <tr key={student.email}>
+                              <td><img src={student.imageUrl} alt="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2JwlmFLmAhtLDggXumqt1lcqIcoVAfmxY53lYz4SuaWztjsZKDQ"/></td>
+                              <td>{student.name}</td>
+                              <td>{student.email}</td>
+                              <td>To be implemented...</td>
+                            </tr>
+                          )
+                        })
+                      }
+                    </tbody>
+                  </table>
                 </div>
               )
             })
