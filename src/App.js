@@ -1,18 +1,22 @@
 import React, { Component } from 'react';
 import GoogleLogin from 'react-google-login';
 
-//import update from 'immutability-helper';
-
+// common components
 import Header from './Components/Header';
 import Footer from './Components/Footer';
 import Feed from './Components/Feed';
 import List from './Components/List';
 import Register from './Components/Register';
-import Proxy from './Components/Proxy';
 import Enrollments from './Components/Enrollments';
 import Message from './Components/Message';
+
+// teacher role components
+import Proxy from './Components/Proxy';
 import Instructing from './Components/Instructing';
 import Submission from './Components/Submission';
+
+// admin role components
+import Manage from './Components/Manage';
 
 var $ = require('jquery');
 
@@ -204,6 +208,8 @@ class App extends Component {
       main = <Instructing API_STEM={API_STEM} instructingList={this.state.user.instructing} />
     } else if (this.state.view === 'proxy') {
       main = <Proxy onRegistrationSubmit={this.handleRegistrationSubmission} classes={this.state.classes} />
+    } else if (this.state.view === 'manage') {
+      main = <Manage classes={this.state.classes} />
     }
 
     return (
