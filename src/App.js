@@ -8,6 +8,7 @@ import Footer from './Components/Footer';
 import Feed from './Components/Feed';
 import List from './Components/List';
 import Register from './Components/Register';
+import Proxy from './Components/Proxy';
 import Enrollments from './Components/Enrollments';
 import Message from './Components/Message';
 import Instructing from './Components/Instructing';
@@ -122,18 +123,23 @@ class App extends Component {
     });
   }
 
-  handleRegistrationSubmission(pick) {
+  handleRegistrationSubmission(registrationObject) {
 
     var self = this;
     var gid = this.state.user.id;
     var data = this.state.user;
 
-    if(!pick) {
+    if(!registrationObject.pick) {
       alert("you must pick a class");
     } else {
+
+      if(registrationObject.proxy) {
+        data = registrationObject;
+      }
+
       $.ajax({
         method: "PUT",
-        url: API_STEM + "courses/" + pick + "/add-student",
+        url: API_STEM + "courses/" + registrationObject.pick + "/add-student",
         contentType: 'application/json',
         data: JSON.stringify(data),
         crossDomain: true,
@@ -141,6 +147,9 @@ class App extends Component {
         if(response.error) {
           globalMessage = response.error;
           self.setState({view: "message"});
+        } else if (registrationObject.proxy) {
+          globalMessage = "Successfully did a proxy registration.";
+          self.setState({view: "message"})
         } else {
           $.ajax({
             method: "PUT",
@@ -193,6 +202,8 @@ class App extends Component {
       main = <Submission onFormSubmit={this.handleCourseSubmission} />
     } else if (this.state.view === 'instructing') {
       main = <Instructing API_STEM={API_STEM} instructingList={this.state.user.instructing} />
+    } else if (this.state.view === 'proxy') {
+      main = <Proxy onRegistrationSubmit={this.handleRegistrationSubmission} classes={this.state.classes} />
     }
 
     return (

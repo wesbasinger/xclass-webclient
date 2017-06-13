@@ -17,7 +17,7 @@ class Register extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.onRegistrationSubmit(this.state.pick);
+    this.props.onRegistrationSubmit({pick: this.state.pick});
   }
 
   render() {

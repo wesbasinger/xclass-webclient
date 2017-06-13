@@ -25,6 +25,7 @@ class Header extends Component {
             <button value="list" onClick={this.props.onNavClick}>List Classes</button>
             <button value="submission" onClick={this.props.onNavClick}>Submit New Class</button>
             <button value="instructing" onClick={this.props.onNavClick}>My Classes</button>
+            <button value="proxy" onClick={this.props.onNavClick}>Proxy Registration</button>
             <span>
               <img src={this.props.user.imageUrl} height="40px" alt=""/>Logged in as: {this.props.user.name}
             </span>
