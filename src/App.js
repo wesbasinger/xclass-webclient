@@ -40,6 +40,7 @@ class App extends Component {
     this.handleLogout = this.handleLogout.bind(this);
     this.handleRegistrationSubmission = this.handleRegistrationSubmission.bind(this);
     this.handleCourseSubmission = this.handleCourseSubmission.bind(this);
+    this.handleRemoval = this.handleRemoval.bind(this);
   }
 
   componentDidMount() {
@@ -85,6 +86,47 @@ class App extends Component {
         });
       } else {
         self.setState({user: response});
+      }
+    });
+  }
+
+  handleRemoval(data) {
+
+    console.log(data);
+
+    var self = this;
+
+    $.ajax({
+      method: "PUT",
+      url: API_STEM + "users/" + data.gid + "/remove-enrollment",
+      contentType: 'application/json',
+      data: JSON.stringify(data),
+      crossDomain: true,
+    }).done(function(response) {
+
+      console.log(response);
+      
+      if(response.error) {
+        globalMessage = response.error;
+        self.setState({view: "message"});
+      } else {
+        globalMessage = "Successfully unset student enrollment.  Now removing from course...";
+        self.setState({view: "message"});
+        $.ajax({
+          method: "PUT",
+          url: API_STEM + "courses/" + data._id + "/remove-student",
+          contentType: 'application/json',
+          data: JSON.stringify(data),
+          crossDomain: true,
+        }).done(function(response) {
+          if(response.error) {
+            globalMessage = response.error;
+            self.setState({view: "message"});
+          } else {
+            globalMessage = "Successfully removed student from course.  Refresh for current data.";
+            self.setState({view: "message"});
+          }
+        });
       }
     });
   }
@@ -209,7 +251,7 @@ class App extends Component {
     } else if (this.state.view === 'proxy') {
       main = <Proxy onRegistrationSubmit={this.handleRegistrationSubmission} classes={this.state.classes} />
     } else if (this.state.view === 'manage') {
-      main = <Manage classes={this.state.classes} />
+      main = <Manage classes={this.state.classes} onRemoval={this.handleRemoval} />
     }
 
     return (

@@ -12,6 +12,17 @@ class Manage extends Component {
 
     this.handleOptionChange = this.handleOptionChange.bind(this);
     this.handleOptionSubmit = this.handleOptionSubmit.bind(this);
+    this.handleRemovalClick = this.handleRemovalClick.bind(this);
+  }
+
+  handleRemovalClick(e) {
+    this.props.onRemoval(
+      {
+        gid: e.target.value,
+        session: this.state.managing.session,
+        _id: this.state.managing._id
+      }
+    )
   }
 
   handleOptionChange(e) {
@@ -31,6 +42,8 @@ class Manage extends Component {
   }
 
   render() {
+
+    var self = this;
 
     if(!this.state.managing) {
       return (
@@ -69,11 +82,11 @@ class Manage extends Component {
               {
                 this.state.managing.students.map(function(student) {
                   return(
-                    <tr>
-                      <td><img src={student.imageUrl}/></td>
+                    <tr key={student.gid}>
+                      <td><img src={student.imageUrl} alt=""/></td>
                       <td>{student.name}</td>
                       <td>{student.email}</td>
-                      <td><button>Remove</button></td>
+                      <td><button value={student.gid} onClick={self.handleRemovalClick}>Remove</button></td>
                     </tr>
                   )
                 })
