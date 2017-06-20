@@ -13,6 +13,17 @@ class Manage extends Component {
     this.handleOptionChange = this.handleOptionChange.bind(this);
     this.handleOptionSubmit = this.handleOptionSubmit.bind(this);
     this.handleRemovalClick = this.handleRemovalClick.bind(this);
+    this.handleLiquidateClick = this.handleLiquidateClick.bind(this);
+  }
+
+  handleLiquidateClick(e) {
+    this.props.onLiquidation(
+      {
+        gid: this.props.gid,
+        courseId: this.state.managing._id,
+        session: this.state.managing.session
+      }
+    )
   }
 
   handleRemovalClick(e) {
@@ -93,6 +104,7 @@ class Manage extends Component {
               }
             </tbody>
           </table>
+          <button onClick={this.handleLiquidateClick} value={this.state.managing._id}>Liquidate Class</button>
         </div>
       )
     }

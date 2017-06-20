@@ -41,6 +41,7 @@ class App extends Component {
     this.handleRegistrationSubmission = this.handleRegistrationSubmission.bind(this);
     this.handleCourseSubmission = this.handleCourseSubmission.bind(this);
     this.handleRemoval = this.handleRemoval.bind(this);
+    this.handleLiquidation = this.handleLiquidation.bind(this);
   }
 
   componentDidMount() {
@@ -55,6 +56,56 @@ class App extends Component {
     }).done(function(response) {
       self.setState({classes: response})
     });
+  }
+
+  handleLiquidation(data) {
+
+    var self = this;
+    // this is a 3 layer nested AJAX call chain
+
+    // first remove all users
+    $.ajax({
+      method: "PUT",
+      url: API_STEM + "users/all/batch-removal",
+      contentType: 'application/json',
+      crossDomain: true,
+      data: JSON.stringify({
+        session: data.session,
+        course_id: data.courseId
+      })
+    }).done(function(response) {
+
+      globalMessage = "All users have been removed, now removing instructor.";
+      self.setState({view: "message"});
+      // now we remove instructor from the course
+      $.ajax({
+        method: "PUT",
+        url: API_STEM + "users/" + data.gid + "/remove-instructing",
+        contentType: 'application/json',
+        crossDomain: true,
+        data: JSON.stringify({
+          course_id: data.courseId
+        })
+      }).done(function(response) {
+
+        globalMessage = "Instructor has been removed, now deleting the course.";
+        self.setState({view: "message"});
+
+        // last, we flat out delete the course
+        $.ajax({
+          method: "DELETE",
+          url: API_STEM + "courses/" + data.courseId,
+          contentType: 'application/json',
+          crossDomain: true
+        }).done(function(response) {
+
+          globalMessage = "Course has been successfully liquidated.";
+          self.setState({view: "message"});
+
+        });
+      });
+    });
+
   }
 
   responseGoogle(response) {
@@ -105,7 +156,7 @@ class App extends Component {
     }).done(function(response) {
 
       console.log(response);
-      
+
       if(response.error) {
         globalMessage = response.error;
         self.setState({view: "message"});
@@ -251,7 +302,9 @@ class App extends Component {
     } else if (this.state.view === 'proxy') {
       main = <Proxy onRegistrationSubmit={this.handleRegistrationSubmission} classes={this.state.classes} />
     } else if (this.state.view === 'manage') {
-      main = <Manage classes={this.state.classes} onRemoval={this.handleRemoval} />
+      main = <Manage
+        onLiquidation={this.handleLiquidation} gid={this.state.user.id}
+        classes={this.state.classes} onRemoval={this.handleRemoval} />
     }
 
     return (
