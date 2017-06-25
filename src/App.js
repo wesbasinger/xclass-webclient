@@ -32,7 +32,8 @@ class App extends Component {
       view: 'feed',
       user: false,
       gid_token: "",
-      classes: []
+      classes: [],
+      feeds: []
     }
 
     this.handleNavClick = this.handleNavClick.bind(this);
@@ -47,6 +48,15 @@ class App extends Component {
   componentDidMount() {
 
     var self = this;
+
+    $.ajax({
+      method: "GET",
+      url: API_STEM + "feeds",
+      contentType: 'application/json',
+      crossDomain: true,
+    }).done(function(response) {
+      self.setState({feeds: response})
+    });
 
     $.ajax({
       method: "GET",
@@ -278,7 +288,7 @@ class App extends Component {
 
     if(this.state.view === 'feed')  {
       if(this.state.user) {
-        main = <Feed />;
+        main = <Feed feeds={this.state.feeds}/>;
       } else {
         main = <GoogleLogin
                  clientId="138477616168-pfaco7a1lrv2pjleqdg9b1vqi64joj5t.apps.googleusercontent.com"
